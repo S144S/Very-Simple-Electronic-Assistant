@@ -1,2 +1,3 @@
-# Very_Simple_Electronic_Assistant
-Electronic asistant for electronics engineers 
+<H1 align=center>Very Simple Electronic Assistant (VSEA)</H1>
+VSEA is an Electronic asistant for electronics engineers
+
