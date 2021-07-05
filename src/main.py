@@ -9,6 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+
 
 
 class Ui_MainWindow(object):
@@ -46,6 +48,7 @@ class Ui_MainWindow(object):
         self.led_count = QtWidgets.QSpinBox(self.led_resistor)
         self.led_count.setGeometry(QtCore.QRect(120, 50, 41, 31))
         self.led_count.setObjectName("led_count")
+        
         self.led_color = QtWidgets.QLabel(self.led_resistor)
         self.led_color.setGeometry(QtCore.QRect(40, 80, 71, 33))
         font = QtGui.QFont()
@@ -123,6 +126,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.main_tab.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -148,8 +152,17 @@ class Ui_MainWindow(object):
 
     def press_calculate(self):
         r = int(led_resistor_calculatin() * 1000)
-        res = 'مقاومت پیشنهادی برای بهترین روشنایی = ' + str(r) + ' اهم'
-        self.result.setPlainText(res)
+        if(r > 0):
+            res = 'مقاومت پیشنهادی برای بهترین روشنایی = ' + str(r) + ' اهم'
+            res = res + '\nاگر مقاومت پیشنهادی داخل رنج نیست'
+            res = res + '\nلطفا اولین مقاومت داخل رنج بعد از مقاومت پیشنهادی را برگزینید'
+            self.result.setPlainText(res)
+        elif(r < 0):
+            res = 'ولتاژ فوروارد LED مدنظر شما از ولتاژ ورودی بیشتر است!'
+            res = res + '\nمی توانید هیچ مقاومتی در مدار قرار ندهید'
+            self.result.setPlainText(res)
+        else:
+            pass
 
 
 def led_resistor_calculatin():
@@ -157,11 +170,19 @@ def led_resistor_calculatin():
     vf = 0
     I = 20
     
-    vs = float(ui.voltage_input.toPlainText())
+    if((ui.voltage_input.toPlainText()) == ""):
+        ui.result.setPlainText("ولتاژ نمی تواند خالی باشد")
+        return 0
+    else:    
+        vs = float(ui.voltage_input.toPlainText())
     
     
     led_col = ui.led_type.currentIndex()
     led_cir_type = ui.par_ser.currentIndex()
+    led_number = ui.led_count.value();
+    if(led_number == 0):
+        ui.result.setPlainText("تعداد LED ها را وارد کنید")
+        return 0
     
     if(led_col == 0):
         vf = 1.8
@@ -180,11 +201,16 @@ def led_resistor_calculatin():
     elif(led_col == 7):
         vf = 3.2
         
+    if(led_cir_type == 0):
+        vf = vf * led_number 
+        I = 20
+    else:
+        vf = vf * 1
+        I = 20 * led_number
+        
+        
     resistor = (vs - vf) / I
-    
     print(resistor)
-    
-    
     return resistor
 
 
