@@ -1,6 +1,9 @@
 <H1 align=center>Very Simple Electronic Assistant (VSEA)</H1>
 VSEA is an Electronic assistant for electronics engineers
 
+Application language: Farsi
+
+زبان کاربری این نرم افزار فارسی است
 <h2 align="left">VSEA Featurs for V1.0.0</h2>
 
 - Calculate best resistor value in a LED circuit
