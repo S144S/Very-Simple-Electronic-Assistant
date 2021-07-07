@@ -9,14 +9,12 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMessageBox
-
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(500, 441)
+        MainWindow.resize(500, 443)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.main_tab = QtWidgets.QTabWidget(self.centralwidget)
@@ -48,7 +46,6 @@ class Ui_MainWindow(object):
         self.led_count = QtWidgets.QSpinBox(self.led_resistor)
         self.led_count.setGeometry(QtCore.QRect(120, 50, 41, 31))
         self.led_count.setObjectName("led_count")
-        
         self.led_color = QtWidgets.QLabel(self.led_resistor)
         self.led_color.setGeometry(QtCore.QRect(40, 80, 71, 33))
         font = QtGui.QFont()
@@ -76,8 +73,10 @@ class Ui_MainWindow(object):
         self.par_ser.addItem("")
         self.result = QtWidgets.QPlainTextEdit(self.led_resistor)
         self.result.setGeometry(QtCore.QRect(30, 240, 431, 71))
+        font = QtGui.QFont()
+        font.setFamily("Mj_Beirut")
+        self.result.setFont(font)
         self.result.setObjectName("result")
-        
         self.calculate = QtWidgets.QPushButton(self.led_resistor)
         self.calculate.setGeometry(QtCore.QRect(170, 160, 121, 71))
         font = QtGui.QFont()
@@ -113,6 +112,68 @@ class Ui_MainWindow(object):
         self.main_tab.addTab(self.led_resistor, "")
         self.res_watt = QtWidgets.QWidget()
         self.res_watt.setObjectName("res_watt")
+        self.power = QtWidgets.QPlainTextEdit(self.res_watt)
+        self.power.setGeometry(QtCore.QRect(30, 220, 431, 71))
+        font = QtGui.QFont()
+        font.setFamily("Mj_Beirut")
+        font.setPointSize(12)
+        self.power.setFont(font)
+        self.power.setObjectName("power")
+        self.current = QtWidgets.QLabel(self.res_watt)
+        self.current.setGeometry(QtCore.QRect(210, 40, 161, 33))
+        font = QtGui.QFont()
+        font.setFamily("B Titr")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.current.setFont(font)
+        self.current.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.current.setObjectName("current")
+        self.current_input_ = QtWidgets.QPlainTextEdit(self.res_watt)
+        self.current_input_.setGeometry(QtCore.QRect(380, 40, 61, 31))
+        self.current_input_.setObjectName("current_input_")
+        self.current_unit = QtWidgets.QLabel(self.res_watt)
+        self.current_unit.setGeometry(QtCore.QRect(450, 40, 31, 33))
+        font = QtGui.QFont()
+        font.setFamily("B Titr")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.current_unit.setFont(font)
+        self.current_unit.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.current_unit.setObjectName("current_unit")
+        self.calculate_pow = QtWidgets.QPushButton(self.res_watt)
+        self.calculate_pow.setGeometry(QtCore.QRect(180, 140, 121, 71))
+        font = QtGui.QFont()
+        font.setFamily("Mj_Beirut Heading")
+        font.setPointSize(11)
+        self.calculate_pow.setFont(font)
+        self.calculate_pow.setObjectName("calculate_pow")
+        self.calculate_pow.clicked.connect(self.press_power_calculation)
+        
+        self.voltage_unit_3 = QtWidgets.QLabel(self.res_watt)
+        self.voltage_unit_3.setGeometry(QtCore.QRect(140, 40, 51, 33))
+        font = QtGui.QFont()
+        font.setFamily("B Titr")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.voltage_unit_3.setFont(font)
+        self.voltage_unit_3.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.voltage_unit_3.setObjectName("voltage_unit_3")
+        self.res_vol_2 = QtWidgets.QLabel(self.res_watt)
+        self.res_vol_2.setGeometry(QtCore.QRect(10, 40, 51, 33))
+        font = QtGui.QFont()
+        font.setFamily("B Titr")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.res_vol_2.setFont(font)
+        self.res_vol_2.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.res_vol_2.setObjectName("res_vol_2")
+        self.voltage_input_power_2 = QtWidgets.QPlainTextEdit(self.res_watt)
+        self.voltage_input_power_2.setGeometry(QtCore.QRect(70, 40, 61, 31))
+        self.voltage_input_power_2.setObjectName("voltage_input_power_2")
         self.main_tab.addTab(self.res_watt, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -124,13 +185,12 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.main_tab.setCurrentIndex(0)
+        self.main_tab.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "VerySimpleElectronicAssistant"))
         self.led_type.setItemText(0, _translate("MainWindow", "قرمز"))
         self.led_type.setItemText(1, _translate("MainWindow", "آبی"))
         self.led_type.setItemText(2, _translate("MainWindow", "زرد"))
@@ -148,6 +208,11 @@ class Ui_MainWindow(object):
         self.voltage.setText(_translate("MainWindow", "<html><head/><body><p>ولتاژ مدار</p></body></html>"))
         self.voltage_unit.setText(_translate("MainWindow", "<html><head/><body><p>v</p></body></html>"))
         self.main_tab.setTabText(self.main_tab.indexOf(self.led_resistor), _translate("MainWindow", "LED مقاومت"))
+        self.current.setText(_translate("MainWindow", "<html><head/><body><p>جریان عبوری از مقاومت</p></body></html>"))
+        self.current_unit.setText(_translate("MainWindow", "<html><head/><body><p>mA</p></body></html>"))
+        self.calculate_pow.setText(_translate("MainWindow", "محاسبه"))
+        self.voltage_unit_3.setText(_translate("MainWindow", "<html><head/><body><p>Ohm</p></body></html>"))
+        self.res_vol_2.setText(_translate("MainWindow", "<html><head/><body><p>مقاومت</p></body></html>"))
         self.main_tab.setTabText(self.main_tab.indexOf(self.res_watt), _translate("MainWindow", "توان مقاومت"))
 
     def press_calculate(self):
@@ -157,13 +222,16 @@ class Ui_MainWindow(object):
             res = res + '\nاگر مقاومت پیشنهادی داخل رنج نیست'
             res = res + '\nلطفا اولین مقاومت داخل رنج بعد از مقاومت پیشنهادی را برگزینید'
             self.result.setPlainText(res)
-        elif(r < 0):
+        elif(r <= 0):
             res = 'ولتاژ فوروارد LED مدنظر شما از ولتاژ ورودی بیشتر است!'
             res = res + '\nمی توانید هیچ مقاومتی در مدار قرار ندهید'
             self.result.setPlainText(res)
         else:
             pass
-
+    def press_power_calculation(self):
+        p = int(power_calculation())
+        res = 'حداقل توان موردنیاز برای این مقاومت ' + str(p) + ' میلی وات می باشد'
+        self.power.setPlainText(res)
 
 def led_resistor_calculatin():
     resistor = 0
@@ -212,6 +280,23 @@ def led_resistor_calculatin():
     resistor = (vs - vf) / I
     print(resistor)
     return resistor
+
+def power_calculation():
+    power = 0
+    
+    cir_res = ui.voltage_input_power_2.toPlainText()
+    cir_cur = ui.current_input_.toPlainText() 
+    
+    if((cir_res == "") or (cir_cur == "")):
+        ui.power.setPlainText("لطفا همه پارامترها را وارد کنید")
+        return 0
+    
+    cir_res = float(cir_res)
+    cir_cur = float(cir_cur)
+    
+    power = cir_res * cir_cur * cir_cur
+    
+    return power
 
 
 
