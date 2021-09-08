@@ -1,9 +1,12 @@
 <H1 align=center>Very Simple Electronic Assistant (VSEA)</H1>
-VSEA is an Electronic assistant for electronics engineers
+VSEA is an Electronic assistant for electronics engineers using Python3 and PyQt
 
 Application language: Farsi
 
 زبان کاربری این نرم افزار فارسی است
+
+This is my first QT project so it has a ugly UI and is too buggy and there is still a long way to go
+
 <h2 align="left">VSEA Featurs for V1.0.0</h2>
 
 - Calculate best resistor value in a LED circuit
